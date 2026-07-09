@@ -136,6 +136,9 @@ function update_desktop_notification_banner(): void {
     const permission = Notification.permission;
     const $banner_container = $(".desktop-notification-settings-banners");
     if (permission === "granted") {
+        delay(() => message_notifications.send_test_notification(
+                    $t({defaultMessage: "Thanks for enabling Zulip notifications!"}))
+            , 1);
         banners.close($(".desktop-notification-settings-banners .desktop-setting-notifications"));
         $(".send_test_notification").show();
     } else {
@@ -406,9 +409,9 @@ export function set_up(settings_panel: SettingsPanel): void {
             const permission = await Notification.requestPermission();
             if (permission === "granted") {
                 update_desktop_notification_banner();
-                delay(() => message_notifications.send_test_notification(
-                    $t({defaultMessage: "Thanks for enabling Zulip notifications!"}))
-                , 1);
+                //delay(() => message_notifications.send_test_notification(
+                //    $t({defaultMessage: "Thanks for enabling Zulip notifications!"}))
+                //, 1);
             } else if (permission === "denied") {
                 window.open(
                     "/help/desktop-notifications#check-platform-settings",
