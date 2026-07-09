@@ -37,6 +37,7 @@ import {
     user_settings_schema,
 } from "./user_settings.ts";
 import * as util from "./util.ts";
+import { delay } from "lodash";
 
 export let user_settings_panel: SettingsPanel | undefined;
 let customize_stream_notifications_widget: dropdown_widget.DropdownWidget;
@@ -405,6 +406,9 @@ export function set_up(settings_panel: SettingsPanel): void {
             const permission = await Notification.requestPermission();
             if (permission === "granted") {
                 update_desktop_notification_banner();
+                delay(() => message_notifications.send_test_notification(
+                    $t({defaultMessage: "Thanks for enabling Zulip notifications!"}))
+                , 1);
             } else if (permission === "denied") {
                 window.open(
                     "/help/desktop-notifications#check-platform-settings",
